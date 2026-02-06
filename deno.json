@@ -1,7 +1,8 @@
 {
+  "nodeModulesDir": "auto",
   "tasks": {
     "dev": "deno run -A npm:vite dev",
-    "build": "deno run -A npm:vite build",
+    "build": "deno run -A npm:svelte-kit sync && deno run -A npm:vite build",
     "preview": "deno run --allow-net --allow-read --allow-env ./build/index.js"
   }
 }
