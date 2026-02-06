@@ -1,0 +1,63 @@
+{
+  "name": "Deno + SvelteKit",
+  "image": "denoland/deno:latest",
+  "features": {
+    "ghcr.io/devcontainers/features/node:latest": {
+      "version": "24"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "denoland.vscode-deno",
+        "svelte.svelte-vscode",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "github.copilot"
+      ],
+      "settings": {
+        "deno.enable": true,
+        "deno.lint": true,
+        "editor.defaultFormatter": "denoland.vscode-deno",
+        "[typescript]": {
+          "editor.defaultFormatter": "denoland.vscode-deno",
+          "editor.formatOnSave": true
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "denoland.vscode-deno"
+        },
+        "[svelte]": {
+          "editor.defaultFormatter": "svelte.svelte-vscode"
+        },
+        "files.exclude": {
+          "**/.git": true,
+          "**/.svelte-kit": true,
+          "**/node_modules": true,
+          "**/.DS_Store": true
+        },
+        "search.exclude": {
+          "**/.svelte-kit": true,
+          "**/node_modules": true,
+          "**/dist": true,
+          "**/build": true
+        }
+      }
+    }
+  },
+  "postCreateCommand": "npm install",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite Dev Server",
+      "onAutoForward": "notify"
+    }
+  },
+  "mounts": [
+    "source=deno-cache,target=/root/.deno,type=volume"
+  ],
+  "remoteEnv": {
+    "DENO_DIR": "/root/.deno"
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind"
+}
