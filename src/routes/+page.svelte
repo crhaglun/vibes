@@ -1,5 +1,6 @@
 <script lang="ts">
   import QuoteDisplay from '$lib/components/QuoteDisplay.svelte';
+  import SunshineWidget from '$lib/components/SunshineWidget.svelte';
   import NewsFeed from '$lib/components/NewsFeed.svelte';
 
   export let data;
@@ -8,6 +9,7 @@
 <div class="container">
   <main>
     <QuoteDisplay quote={data.quote} />
+    <SunshineWidget />
     <NewsFeed items={data.news} />
   </main>
 

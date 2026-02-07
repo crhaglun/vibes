@@ -2,7 +2,7 @@ import type { Quote } from '$lib/types/index.js';
 
 export const quotes: Quote[] = [
   { text: 'You look like someone who knows where their towel is' },
-  { text: 'Some people can be Aragorn. Everyon can be Samwise.' },
+  { text: 'Some people can be Aragorn. Everyone can be Samwise.' },
   { text: 'Up, up, down down, left right, left right, B A Start.' },
   { text: 'Up, up and away!' },
   { text: 'It\'s dangerous to go alone! Take this.' },

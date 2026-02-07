@@ -19,10 +19,23 @@ This is a playground app to learn more about both [SvelteKit](https://kit.svelte
 
 ## How it works
 
-Once per day, the service  refresh a set of RSS feeds that curates good news.
+### News Feed
+
+Once per day, the service refreshes a set of RSS feeds that curates good news.
 
 Every five minutes, it picks three items from the cached set to present.
 
 When you visit the site, you'll get a limited list of (hopefully) positive news.
 
-Repeatedly refreshing the page - or picking up a different device - will not trigger a new set of articles.
+Repeatedly refreshing the page - or picking up a different device - will not trigger a new set of articles. 
+
+### Pleasant Weather
+
+This widget uses browser's geolocation (with IP-based fallback) to find current weather from [OpenWeatherMap](https://openweathermap.org/api).
+The presentation aims to be positive.
+
+### A note on caching
+
+News feeds are low-cardinality data, the set of feeds do not change over time. RSS feed content is cached server-side. 
+
+Geo-coordinates are high-cardinality data, with a risk of low cache hit rate. Calls that use coordinates are cached client-side.
