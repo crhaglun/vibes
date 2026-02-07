@@ -40,6 +40,16 @@
     animation: fadeIn 0.5s ease-in-out;
   }
 
+  @media (prefers-color-scheme: light) {
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .card:hover {
+      background: rgba(255, 255, 255, 0.95);
+    }
+  }
+
   .card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);

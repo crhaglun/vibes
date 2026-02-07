@@ -31,6 +31,12 @@
     text-align: center;
   }
 
+  @media (prefers-color-scheme: light) {
+    .quote-content {
+      background: var(--pastel-pink);
+    }
+  }
+
   .quote-text {
     font-family: var(--font-display);
     font-size: var(--font-size-2xl);

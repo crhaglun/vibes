@@ -181,6 +181,12 @@
     color: var(--text-primary);
   }
 
+  @media (prefers-color-scheme: light) {
+    .sunshine-widget {
+      background: rgba(255, 255, 255, 0.85);
+    }
+  }
+
   .loading-state {
     display: flex;
     flex-direction: column;
