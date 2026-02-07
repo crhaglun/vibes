@@ -7,7 +7,9 @@
   --pastel-mint: #D4F4DD;
   --pastel-lavender: #E5D4F7;
 
-  /* Neutrals */
+  /* Light Mode */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: var(--pastel-blue);
   --text-primary: #4A5568;
   --text-secondary: #718096;
 
@@ -43,6 +45,15 @@
   --transition-base: 250ms ease-in-out;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1A1A1A;
+    --bg-secondary: #2D2D2D;
+    --text-primary: var(--pastel-pink);
+    --text-secondary: var(--pastel-blue);
+  }
+}
+
 /* CSS Reset */
 * {
   margin: 0;
@@ -59,9 +70,10 @@ body {
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
   color: var(--text-primary);
-  background: var(--pastel-blue);
+  background: var(--bg-secondary);
   min-height: 100vh;
   padding: var(--spacing-md);
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 h1,

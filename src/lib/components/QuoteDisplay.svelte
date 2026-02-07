@@ -22,7 +22,7 @@
   }
 
   .quote-content {
-    background: var(--pastel-pink);
+    border: 3px solid var(--pastel-pink);
     border-radius: 20px;
     padding: var(--spacing-2xl);
     box-shadow: var(--shadow-lg);

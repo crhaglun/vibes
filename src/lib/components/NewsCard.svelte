@@ -29,7 +29,6 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    background: rgba(255, 255, 255, 0.85);
     border: 3px solid var(--pastel-mint);
     border-radius: 12px;
     padding: var(--spacing-lg);
@@ -45,7 +44,6 @@
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
     border-color: var(--pastel-lavender);
-    background: rgba(255, 255, 255, 0.95);
   }
 
   .card-content {
