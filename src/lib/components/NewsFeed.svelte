@@ -2,16 +2,10 @@
   import NewsCard from './NewsCard.svelte';
 
   export let items = [];
-  export let isLoading = false;
 </script>
 
 <div class="news-section">
-  {#if isLoading}
-    <div class="loading">
-      <div class="spinner"></div>
-      <p>Loading good news...</p>
-    </div>
-  {:else if items.length === 0}
+  {#if items.length === 0}
     <div class="empty">
       <p>No news items available right now. Check back soon!</p>
     </div>
@@ -36,31 +30,6 @@
     auto-rows: 1fr;
   }
 
-  .loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-2xl);
-    color: var(--text-secondary);
-  }
-
-  .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid var(--pastel-pink);
-    border-top-color: var(--pastel-lavender);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: var(--spacing-md);
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
   .empty {
     text-align: center;
     padding: var(--spacing-2xl);
@@ -83,14 +52,6 @@
 
     .news-grid {
       grid-template-columns: 1fr;
-    }
-
-    .news-header h2 {
-      font-size: var(--font-size-xl);
-    }
-
-    .subtitle {
-      font-size: var(--font-size-base);
     }
   }
 </style>

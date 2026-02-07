@@ -1,9 +1,6 @@
 import { parseRssFeed } from './rss-parser.js';
 import type { NewsItem } from '$lib/types/index.js';
-
-// Cache configuration
-const FEED_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours - expensive RSS fetching
-const SELECTION_CACHE_TTL = 5 * 60 * 1000; // 5 minutes - cheap randomization
+import { config } from '$lib/data/config.js';
 
 interface CacheEntry {
   data: NewsItem[];
@@ -12,30 +9,6 @@ interface CacheEntry {
 
 // In-memory cache
 const cache: Map<string, CacheEntry> = new Map();
-
-// RSS feed sources with homepage URLs
-export const RSS_FEEDS = [
-  {
-    url: 'https://www.positive.news/feed/',
-    name: 'Positive News',
-    homepage: 'https://www.positive.news/'
-  },
-  {
-    url: 'https://reasonstobecheerful.world/feed/',
-    name: 'Reasons to be Cheerful',
-    homepage: 'https://reasonstobecheerful.world/'
-  },
-  {
-    url: 'https://www.upworthy.com/feeds/feed.rss',
-    name: 'Upworthy',
-    homepage: 'https://www.upworthy.com/'
-  },
-  {
-    url: 'https://www.goodnewsnetwork.org/category/news/science/feed/',
-    name: 'Good News Network - Science',
-    homepage: 'https://www.goodnewsnetwork.org/category/news/science/'
-  }
-];
 
 /**
  * Calculate similarity between two strings (0-1)
@@ -71,7 +44,7 @@ function filterDuplicates(items: NewsItem[]): NewsItem[] {
 
   for (const item of items) {
     const isDuplicate = seen.some(
-      (seenItem) => stringSimilarity(seenItem.title, item.title) > 0.85
+      (seenItem) => stringSimilarity(seenItem.title, item.title) > config.algorithm.similarityThreshold
     );
 
     if (!isDuplicate) {
@@ -160,7 +133,7 @@ async function getAggregatedNews(): Promise<NewsItem[]> {
   const cached = cache.get(cacheKey);
 
   // Return cached data if available and not expired (24 hour TTL)
-  if (cached && Date.now() - cached.timestamp < FEED_CACHE_TTL) {
+  if (cached && Date.now() - cached.timestamp < config.cache.feedTtl) {
     console.log('Returning cached aggregated news');
     return cached.data;
   }
@@ -169,7 +142,7 @@ async function getAggregatedNews(): Promise<NewsItem[]> {
 
   // Fetch all feeds in parallel
   const results = await Promise.allSettled(
-    RSS_FEEDS.map((feed) => parseRssFeed(feed.url, feed.name))
+    config.feeds.map((feed) => parseRssFeed(feed.url, feed.name))
   );
 
   // Combine all successful results
@@ -178,7 +151,7 @@ async function getAggregatedNews(): Promise<NewsItem[]> {
     if (result.status === 'fulfilled') {
       allItems = allItems.concat(result.value);
     } else {
-      console.error(`Failed to fetch ${RSS_FEEDS[index].name}:`, result.reason);
+      console.error(`Failed to fetch ${config.feeds[index].name}:`, result.reason);
     }
   });
 
@@ -190,9 +163,9 @@ async function getAggregatedNews(): Promise<NewsItem[]> {
     return dateB - dateA; // Newest first
   });
 
-  // Take top 30 items and randomly select 3 (one per source where possible)
-  const topItems = sorted.slice(0, 30);
-  const randomItems = getRandomNewsWithDiverseSources(topItems, 3);
+  // Take top N items and randomly select M (one per source where possible)
+  const topItems = sorted.slice(0, config.algorithm.topArticlesToConsider);
+  const randomItems = getRandomNewsWithDiverseSources(topItems, config.algorithm.finalNewsCount);
 
   // Cache the result
   cache.set(cacheKey, {
@@ -213,7 +186,7 @@ export async function getRandomizedNews(): Promise<NewsItem[]> {
   const cached = cache.get(cacheKey);
 
   // Return cached random selection if available and not expired (1 hour TTL)
-  if (cached && Date.now() - cached.timestamp < SELECTION_CACHE_TTL) {
+  if (cached && Date.now() - cached.timestamp < config.cache.selectionTtl) {
     console.log('Returning cached randomized selection');
     return cached.data;
   }
@@ -223,8 +196,8 @@ export async function getRandomizedNews(): Promise<NewsItem[]> {
   // Get all aggregated news (uses 24h cache internally)
   const allNews = await getAggregatedNews();
 
-  // Randomly select 3 items
-  const randomItems = getRandomItems(allNews, 3);
+  // Randomly select N items
+  const randomItems = getRandomItems(allNews, config.algorithm.finalNewsCount);
 
   // Cache the random selection
   cache.set(cacheKey, {
@@ -242,32 +215,4 @@ export function clearNewsCache(): void {
   cache.delete('aggregated_news');
   cache.delete('randomized_news');
   console.log('News cache cleared');
-}
-
-/**
- * Get cache info for monitoring
- */
-export function getCacheInfo() {
-  const feedCache = cache.get('aggregated_news');
-  const selectionCache = cache.get('randomized_news');
-
-  return {
-    feedCache: feedCache
-      ? {
-          isCached: true,
-          itemCount: feedCache.data.length,
-          ageMs: Date.now() - feedCache.timestamp,
-          remainingMs: Math.max(0, FEED_CACHE_TTL - (Date.now() - feedCache.timestamp)),
-          sources: [...new Set(feedCache.data.map((item) => item.source))]
-        }
-      : { isCached: false, message: 'No feed cache' },
-    selectionCache: selectionCache
-      ? {
-          isCached: true,
-          itemCount: selectionCache.data.length,
-          ageMs: Date.now() - selectionCache.timestamp,
-          remainingMs: Math.max(0, SELECTION_CACHE_TTL - (Date.now() - selectionCache.timestamp))
-        }
-      : { isCached: false, message: 'No selection cache' }
-  };
 }

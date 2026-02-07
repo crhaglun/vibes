@@ -58,6 +58,5 @@
   ],
   "remoteEnv": {
     "DENO_DIR": "/root/.deno"
-  },
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind"
+  }
 }

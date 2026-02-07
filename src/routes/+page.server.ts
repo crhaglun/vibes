@@ -1,5 +1,6 @@
-import { getRandomizedNews, RSS_FEEDS } from '$lib/server/news-aggregator.js';
-import { getRandomQuote } from '$lib/data/quotes.js';
+import { getRandomizedNews } from '$lib/server/news-aggregator.js';
+import { config } from '$lib/data/config.js';
+import { getRandomQuote } from '$lib/server/quotes.js';
 import type { PageServerLoad } from './$types.js';
 
 export const load: PageServerLoad = async () => {
@@ -9,7 +10,7 @@ export const load: PageServerLoad = async () => {
     return {
       news,
       quote,
-      feeds: RSS_FEEDS
+      feeds: config.feeds
     };
   } catch (error) {
     console.error('Error loading page data:', error);
@@ -17,7 +18,7 @@ export const load: PageServerLoad = async () => {
     return {
       news: [],
       quote: getRandomQuote(),
-      feeds: RSS_FEEDS,
+      feeds: config.feeds,
       error: 'Failed to load news'
     };
   }

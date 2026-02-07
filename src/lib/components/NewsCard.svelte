@@ -1,5 +1,6 @@
 <script lang="ts">
   import { formatDistanceToNow } from 'date-fns';
+  import { config } from '$lib/data/config.js';
 
   export let item;
 
@@ -10,7 +11,7 @@
   <div class="card-content">
     <h3 class="card-title">{item.title}</h3>
     {#if item.contentSnippet}
-      <p class="card-snippet">{item.contentSnippet.substring(0, 150)}...</p>
+      <p class="card-snippet">{item.contentSnippet.substring(0, config.algorithm.contentSnippetLength)}...</p>
     {/if}
   </div>
   <div class="card-footer">

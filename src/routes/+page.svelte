@@ -56,11 +56,6 @@
     margin: 0 auto;
   }
 
-  .footer-tagline {
-    margin: 0 0 var(--spacing-lg) 0;
-    font-size: var(--font-size-lg);
-  }
-
   .footer-links {
     display: flex;
     gap: var(--spacing-2xl);

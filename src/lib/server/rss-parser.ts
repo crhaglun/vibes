@@ -1,5 +1,6 @@
 import Parser from 'rss-parser';
 import type { NewsItem } from '$lib/types/index.js';
+import { config } from '$lib/data/config.js';
 
 const parser = new Parser();
 
@@ -12,7 +13,7 @@ export async function parseRssFeed(feedUrl: string, sourceName: string): Promise
       return [];
     }
 
-    return feed.items.slice(0, 10).map((item) => ({
+    return feed.items.slice(0, config.algorithm.itemsPerFeed).map((item) => ({
       title: item.title || 'Untitled',
       link: item.link || '#',
       pubDate: item.pubDate || new Date().toISOString(),

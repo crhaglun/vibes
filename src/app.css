@@ -5,13 +5,9 @@
   --pastel-pink: #FFD6E8;
   --pastel-blue: #C8E7F5;
   --pastel-mint: #D4F4DD;
-  --pastel-peach: #FFE5D9;
   --pastel-lavender: #E5D4F7;
-  --pastel-yellow: #FFF4CC;
 
   /* Neutrals */
-  --soft-white: #FEFEFE;
-  --warm-gray: #F5F5F0;
   --text-primary: #4A5568;
   --text-secondary: #718096;
 
@@ -41,14 +37,10 @@
   --line-height-relaxed: 1.75;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
   /* Transitions */
-  --transition-fast: 150ms ease-in-out;
   --transition-base: 250ms ease-in-out;
-  --transition-slow: 350ms ease-in-out;
 }
 
 /* CSS Reset */
@@ -124,36 +116,6 @@ button {
   max-width: 1024px;
   margin: 0 auto;
   padding: 0 var(--spacing-md);
-}
-
-.fade-in {
-  animation: fadeIn var(--transition-base) ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.slide-up {
-  animation: slideUp var(--transition-slow) ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Responsive */
